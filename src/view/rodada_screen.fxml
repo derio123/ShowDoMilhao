@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RodadaController">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: blue;" VBox.vgrow="ALWAYS">
+      <children>
+            <GridPane layoutX="24.0" layoutY="120.0" prefHeight="131.0" prefWidth="190.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="87.0" minWidth="10.0" prefWidth="22.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="168.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="btnOpcao2" mnemonicParsing="false" prefWidth="250.0" text="2." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="btnOpcao3" mnemonicParsing="false" prefWidth="250.0" text="3." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="btnOpcao1" mnemonicParsing="false" prefHeight="26.0" prefWidth="218.0" text="1." GridPane.columnIndex="1" />
+                  <Button fx:id="btnOpcao4" mnemonicParsing="false" prefWidth="250.0" text="4." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <Region layoutX="47.0" layoutY="14.0" prefHeight="21.0" prefWidth="222.0" style="-fx-background-color: black;" />
+        <Label alignment="CENTER" layoutX="47.0" layoutY="14.0" style="&#10;" text="Participante: " textAlignment="CENTER" textFill="#fcf7f7" wrapText="false">
+          <font>
+            <Font size="18.0" />
+          </font>
+        </Label>
+            <Button layoutX="423.0" layoutY="288.0" mnemonicParsing="false" onAction="#btnParar" prefWidth="90.0" text="Parar" />
+            <Label fx:id="quadro" layoutX="47.0" layoutY="43.0" prefHeight="68.0" prefWidth="401.0" style="-fx-background-color: green;" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <Label fx:id="nomeJogador" layoutX="178.0" layoutY="17.0" text="Label" textFill="#FFFFFFFF" />
+            <Label layoutX="53.0" layoutY="55.0" text="Pergunta: " />
+            <Label fx:id="numPergunta" layoutX="120.0" layoutY="55.0" text="0" textFill="#ebfc36" />
+            <Region layoutX="337.0" layoutY="120.0" prefHeight="131.0" prefWidth="262.0" style="-fx-background-color: #FFFFFFFF;" />
+            <GridPane layoutX="338.0" prefHeight="130.0" prefWidth="262.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="338.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="120.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnPular" prefHeight="22.0" prefWidth="86.0" text="Pular" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#btnUniv" prefHeight="22.0" prefWidth="86.0" text="Universitários" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#btnCartas" prefHeight="22.0" prefWidth="86.0" text="Cartas" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Label text="Quantidade:" GridPane.halignment="LEFT">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label text="Quantidade:" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" text="Quantidade:" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="qtdPulo" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="16.0" prefWidth="23.0" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" />
+                  <Label fx:id="qtdUniv" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="16.0" prefWidth="23.0" text="1" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <Label fx:id="qtdCartas" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="16.0" prefWidth="23.0" text="1" textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+               </children>
+            </GridPane>
+            <Region layoutX="46.0" layoutY="327.0" prefHeight="68.0" prefWidth="553.0" style="-fx-background-color: gray;" />
+      </children>
+    </AnchorPane>
+  </children>
+  <stylesheets>
+    <URL value="@BasicApplication_css/BasicApplication.css" />
+  </stylesheets>
+</VBox>

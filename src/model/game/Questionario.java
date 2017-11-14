@@ -26,6 +26,7 @@ public class Questionario {
 		 maleta = new Dinheiro();
 		 cartas = true;
 		 univ = true;
+		 pulo = 3;
 	}
 	
 	public Pergunta gerarPergunta() {
@@ -63,9 +64,9 @@ public class Questionario {
 		
 	}
 	public boolean pularPergunta() {
-		if(pulo<3) {
+		if(pulo>0) {
 			numPerg--;
-			pulo++;
+			pulo--;
 			return true;
 		}
 		return false;
@@ -131,15 +132,15 @@ public class Questionario {
 		}
 		
 		for(int i=0; i<numsDeleted.size(); i++) {
-		if(numsDeleted.get(i) == 1) {
-			perg.setNumero1("-----");
-		}if(numsDeleted.get(i) == 2) {
-			perg.setNumero2("-----");
-		}if(numsDeleted.get(i) == 3) {
-			perg.setNumero3("-----");
-		}if(numsDeleted.get(i) == 4) {
-			perg.setNumero4("-----");
-		}
+			if(numsDeleted.get(i) == 1) {
+				perg.setNumero1("-----");
+			}if(numsDeleted.get(i) == 2) {
+				perg.setNumero2("-----");
+			}if(numsDeleted.get(i) == 3) {
+				perg.setNumero3("-----");
+			}if(numsDeleted.get(i) == 4) {
+				perg.setNumero4("-----");
+			}
 		}
 		cartas = false;
 		return perg;

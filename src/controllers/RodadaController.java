@@ -1,100 +1,145 @@
 package controllers;
 
-import java.util.Scanner;
-
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+//import javafx.event.ActionEvent;
+//import javafx.fxml.FXML;
 import model.game.Dinheiro;
+import model.game.Participante;
 import model.game.Questionario;
 import model.sqlite.Pergunta;
 
 public class RodadaController extends Questionario{
+	boolean termina = false;
 	JogadorController jogadorX = null;
 	Pergunta questao = null;
-	Scanner entry = null;
+	int respostaJogador = 0;
 	int pts = 0;
-
+	
+	@FXML
+	private Label nomeJogador;
+	@FXML
+	private Label quadro;
+	@FXML
+	private Label numPergunta;
+	@FXML
+	private Button btnOpcao1;
+	@FXML
+	private Button btnOpcao2;
+	@FXML
+	private Button btnOpcao3;
+	@FXML
+	private Button btnOpcao4;
+	@FXML
+	private Label qtdPulo;
+	@FXML
+	private Label qtdUniv;
+	@FXML
+	private Label qtdCartas;
+	
 	public RodadaController () {
 		jogadorX = new JogadorController();
-		entry = new Scanner(System.in);
+	}
+	@FXML
+	protected void initialize() {
+		Main.addOnChangeScreenListener(new Main.OnChangeScreen() {
+			
+			@Override
+			public void onScreenChanged(String newScreen, Object userData) {
+				if(newScreen.equals("iniciarRodada")) {
+					System.out.println("Entrou no onScreenChanged");
+					if(userData != null) {
+						Participante p = (Participante)userData;
+						nomeJogador.setText(p.getNome());
+					}
+				}
+			}
+		});	
+		this.iniciarRodada();
+	}
+	
+	public void iniciarRodada() {	
+		System.out.println("Começou o jogo");
+		
+		this.gerarNovaPergunta();	
+		//Som=btnOpcao1.setOnMouseEntered(event -> btnOpcao1.setText("Botão 1"));
+		//Som=btnOpcao1.setOnMouseExited(event -> btnOpcao1.setText(qm));
+	}
+	private void gerarNovaPergunta() {
+		super.numPerg++;
+		questao = super.gerarPergunta();
+		quadro.setText(questao.getPergunta());
+		numPergunta.setText(Integer.toString(super.numPerg));
+		this.mostrarAlternativas(questao);
+		this.escolherOpcao();
+	}
+	
+	private void finalizarRodada() {
+		System.out.println("Pontos: "+super.maleta.pontos);
+		System.out.print("Você ganhou "+ super.maleta.verMaleta());
+		jogadorX.novoParticipante((int)super.maleta.pontos);
 	}
 	
 	@FXML
-	protected void btnTeste(ActionEvent e) {
-		//Main.changeScreen("inserir");
-		iniciarRodada();
-	}
-	public void iniciarRodada() {	
-		jogadorX.escreverNome(entry);
-		boolean termina = false;
-		while(!termina) {
-			System.out.println("Jogador: "+jogadorX.nome);
-			super.numPerg++;
-			questao = super.gerarPergunta();
-		
-			System.out.println("Questão: "+super.numPerg);
-			this.mostrarAlternativas(questao);		
-			System.out.println(" ------------------------------------------------------------------------");
-			System.out.println("|"+verPossibilidades());
-			System.out.println(" ------------------------------------------------------------------------");
-			while(true) {
-				System.out.println("r. Responder");
-				System.out.println("a. Ajuda");
-				System.out.println("p. Parar");
-				System.out.println("Escolha uma opção: ");
-				String opcao = entry.next();
-		
-				if(opcao.equals("r")){
-					termina = this.responder();
-					break;
-				}else if(opcao.equals("a")) {
-					this.pedirAjuda();
-					break;
-					
-				}else if(opcao.equals("p")){
-					termina = this.parar();
-					break;
-				}else {
-					System.out.print("Sintaxe Incorreta!");
-				}
-			}
-			if(super.numPerg == 16) {
-				termina = true;
-			}
-		}
-		System.out.println("Pontos: "+super.maleta.pontos);
-		System.out.print("Você ganhou "+ super.maleta.verMaleta());
-		//jogadorX.verificarPontos(super.maleta.pontos);
-	}
 	public void mostrarAlternativas(Pergunta p) {
-		System.out.println("Pergunta: "+p.getPergunta());
-		System.out.println("1."+p.getNumero1());
-		System.out.println("2."+p.getNumero2());
-		System.out.println("3."+p.getNumero3());
-		System.out.println("4."+p.getNumero4());
-		System.out.println("");
+		btnOpcao1.setText(p.getNumero1());
+		btnOpcao2.setText(p.getNumero2());
+		btnOpcao3.setText(p.getNumero3());
+		btnOpcao4.setText(p.getNumero4());
 	}
-	public boolean responder() {
-		int resposta = questao.getResposta();
-		System.out.println("Escolha o número da alternativa");
-		System.out.print("Escolha uma opção: ");
-		int escolhida = entry.nextInt();
+	private void escolherOpcao() {
+		btnOpcao1.setOnAction(event ->  this.setOpcaoEscolhida(1)); // COM LAMBDA
+		btnOpcao2.setOnAction(event -> this.setOpcaoEscolhida(2));
+		btnOpcao3.setOnAction(event -> this.setOpcaoEscolhida(3));
+		btnOpcao4.setOnAction(event -> this.setOpcaoEscolhida(4));
+	}
+	
+	private void setOpcaoEscolhida(int opcao) {
+		this.respostaJogador = opcao;
 		
-		if(resposta == escolhida) {
+		if(questao.getResposta() == respostaJogador) {
 			System.out.println("Você Acertou!");
 			super.maleta.analisarPontos(pts+1, true);						
 			pts++;
+			if(numPerg<16) {
+				gerarNovaPergunta();
+			}else {
+				finalizarRodada();
+			}
 		}else {
 			System.out.println("Você Errou! \n Fim de jogo");
 			super.maleta.pontos = super.maleta.analisarPontos(super.numPerg, false);
-			return true;
+			finalizarRodada();
 		}
-		return false;
 	}
-	public boolean parar() {
+	
+	@FXML 
+	protected void btnParar(ActionEvent e) {
 		super.maleta.pontos = super.maleta.analisarPontos(super.numPerg - 1, true);
-		return true;
+		Main.changeScreen("main");
 	}
+	@FXML
+	protected void btnPular(ActionEvent e) {
+		if(super.pularPergunta()) {
+			gerarNovaPergunta();
+			qtdPulo.setText(Integer.toString(pulo));
+		}else {
+			System.out.println("Os três pulos foram usados");
+		}
+	}
+	@FXML
+	protected void btnUniv(ActionEvent e) {
+		
+	}
+	@FXML
+	protected void btnCartas(ActionEvent e) {
+		
+	}
+	/*
 	public void pedirAjuda() {
 		System.out.println("1. Pular");
 		System.out.println("2. Universitários");
@@ -131,12 +176,12 @@ public class RodadaController extends Questionario{
 				System.out.println("4.Carta D");
 				
 				Pergunta questao = super.pedirCartas();
-				this.mostrarAlternativas(questao);
+				//this.mostrarAlternativas(questao);
 			}
 			this.responder();
 			break;
 		}
-	}
+	}*/
 	public String verPossibilidades(){
 		String painel = null; 
 		

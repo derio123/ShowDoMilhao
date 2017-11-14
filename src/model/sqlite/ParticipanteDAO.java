@@ -48,47 +48,32 @@ private boolean isEmpty;
 			this.fecharConexao();
 		}
 	}
-	/*
-	public void criarPosicoesRanking() {
-		try {
+
+	public boolean adicionarJogador(Participante player) {
+		try{
 			this.abrirConexao();
-			String sql 
-		}catch() {
+			String sql = "INSERT INTO participantes (nome, pontos) VALUES (?, ?)";
+			PreparedStatement stmt = this.conexao.prepareStatement(sql);
 			
-		}finally {
+			stmt.setString(1, player.getNome());
+			stmt.setInt(2, player.getPontos());
+			stmt.execute();
+			stmt.close();
 			
-		}
-	}
-	public boolean novoRanking(Participante[] top10) {
-		if(size > list.size()) {
-			try{
-				this.abrirConexao();
-				int i = 0;
-				while(i<size && i < top10.length-1) {
-					String sql = "update participantes set nome=?, pontos=? where id=?";
-					PreparedStatement stmt = this.conexao.prepareStatement(sql);
-					stmt.setString(1, top10[i].getNome());
-					stmt.setInt(2, top10[i].getPontos());
-					stmt.setInt(3, i+1);
-					stmt.execute();
-					stmt.close();
-					i++;
-					}	
-			}catch(SQLException e){
-				System.out.print("Erro ao adicionar participante! "+e);
-			}finally {
-				this.fecharConexao();
-			}
 			return true;
+		}catch(SQLException e){
+			System.out.print("Erro ao adicionar participante! "+e);
+		}finally {
+			this.fecharConexao();
 		}
 		return false;
 	}
-	*/
-	public List<Participante> rankearJogadores(){
+	
+	public List<Participante> listarRanking(){
 		List<Participante> melhores = new ArrayList<Participante>();
 		try {
 			abrirConexao();
-			String sqlSelect = "select * from participantes";
+			String sqlSelect = "SELECT * FROM participantes ORDER BY pontos DESC LIMIT 10";
 			PreparedStatement stmt = this.conexao.prepareStatement(sqlSelect);
 			ResultSet rs = stmt.executeQuery();
 			
